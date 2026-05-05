@@ -1,20 +1,18 @@
-# My first full stack AI app - by Nishanth
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, session
 from flask_cors import CORS
 from groq import Groq
 from dotenv import load_dotenv
+from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import os
 
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+app.secret_key = "mysecretkey123"
+CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-
-print("API KEY LOADED:", GROQ_API_KEY)  # we'll check if key loads
-
 groq_client = Groq(api_key=GROQ_API_KEY)
 
 # Create database
@@ -25,34 +23,54 @@ def init_db():
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
-            email TEXT
+            email TEXT UNIQUE,
+            password TEXT
         )
     ''')
     conn.commit()
     conn.close()
 
-# Save user
-@app.route('/api/save-user', methods=['POST'])
-def save_user():
+# Signup
+@app.route('/api/signup', methods=['POST'])
+def signup():
     data = request.json
     name = data.get('name')
     email = data.get('email')
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-    cursor.execute('INSERT INTO users (name, email) VALUES (?, ?)', (name, email))
-    conn.commit()
-    conn.close()
-    return jsonify({ "message": "User saved to database!" })
+    password = data.get('password')
 
-# Get all users
-@app.route('/api/get-users', methods=['GET'])
-def get_users():
+    hashed_password = generate_password_hash(password)
+
+    try:
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()
+        cursor.execute('INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
+                      (name, email, hashed_password))
+        conn.commit()
+        conn.close()
+        return jsonify({ "message": "Account created successfully!" })
+    except:
+        return jsonify({ "error": "Email already exists!" }), 400
+
+# Login
+@app.route('/api/login', methods=['POST'])
+def login():
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
+
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM users')
-    users = cursor.fetchall()
+    cursor.execute('SELECT * FROM users WHERE email = ?', (email,))
+    user = cursor.fetchone()
     conn.close()
-    return jsonify(users)
+
+    if user and check_password_hash(user[3], password):
+        return jsonify({
+            "message": "Login successful!",
+            "user": { "id": user[0], "name": user[1], "email": user[2] }
+        })
+    else:
+        return jsonify({ "error": "Invalid email or password!" }), 401
 
 # Ask AI
 @app.route('/api/ask-ai', methods=['POST'])
@@ -60,7 +78,6 @@ def ask_ai():
     try:
         data = request.json
         user_message = data.get('message')
-        print("User asked:", user_message)
 
         response = groq_client.chat.completions.create(
             model="llama-3.3-70b-versatile",
@@ -68,7 +85,6 @@ def ask_ai():
         )
 
         reply = response.choices[0].message.content
-        print("AI replied:", reply)
         return jsonify({ "reply": reply })
 
     except Exception as e:

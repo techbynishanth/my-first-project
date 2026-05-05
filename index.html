@@ -12,46 +12,67 @@
       font-family: 'Inter', sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
-      padding: 40px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
 
     .container {
-      max-width: 800px;
-      margin: 0 auto;
+      width: 100%;
+      max-width: 450px;
     }
 
     h1 {
       text-align: center;
       color: white;
-      font-size: 2.5rem;
+      font-size: 2rem;
       margin-bottom: 10px;
     }
 
     .subtitle {
       text-align: center;
       color: rgba(255,255,255,0.8);
-      margin-bottom: 40px;
-      font-size: 1.1rem;
+      margin-bottom: 30px;
     }
 
     .card {
       background: white;
       border-radius: 20px;
       padding: 30px;
-      margin-bottom: 25px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.15);
     }
 
-    .card h2 {
-      font-size: 1.3rem;
-      color: #333;
-      margin-bottom: 20px;
+    .tabs {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      margin-bottom: 25px;
+      background: #f0f0f0;
+      border-radius: 10px;
+      padding: 4px;
     }
 
-    input, textarea {
+    .tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      color: #888;
+      transition: all 0.3s;
+    }
+
+    .tab.active {
+      background: white;
+      color: #667eea;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .form { display: none; }
+    .form.active { display: block; }
+
+    input {
       width: 100%;
       padding: 12px 16px;
       border: 2px solid #e0e0e0;
@@ -59,13 +80,11 @@
       font-size: 15px;
       font-family: 'Inter', sans-serif;
       margin-bottom: 12px;
-      transition: border 0.3s;
       outline: none;
+      transition: border 0.3s;
     }
 
-    input:focus, textarea:focus {
-      border-color: #667eea;
-    }
+    input:focus { border-color: #667eea; }
 
     button {
       width: 100%;
@@ -77,27 +96,87 @@
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-      transition: transform 0.2s, opacity 0.2s;
       font-family: 'Inter', sans-serif;
+      transition: transform 0.2s;
+      margin-top: 5px;
     }
 
-    button:hover {
-      transform: translateY(-2px);
-      opacity: 0.95;
-    }
-
-    button:active { transform: translateY(0); }
+    button:hover { transform: translateY(-2px); }
 
     .message {
       margin-top: 15px;
       padding: 12px;
-      background: #f0fff4;
-      border: 1px solid #9ae6b4;
       border-radius: 10px;
-      color: #276749;
       font-size: 14px;
+      text-align: center;
       display: none;
     }
+
+    .message.success {
+      background: #f0fff4;
+      border: 1px solid #9ae6b4;
+      color: #276749;
+      display: block;
+    }
+
+    .message.error {
+      background: #fff5f5;
+      border: 1px solid #feb2b2;
+      color: #c53030;
+      display: block;
+    }
+
+    /* Dashboard */
+    .dashboard { display: none; }
+
+    .dashboard.active {
+      display: block;
+      max-width: 800px;
+    }
+
+    .dashboard-card {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .welcome {
+      color: #333;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .logout-btn {
+      width: auto;
+      padding: 8px 20px;
+      font-size: 14px;
+      background: #ff6b6b;
+      margin-top: 0;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      margin-bottom: 12px;
+      outline: none;
+      resize: none;
+      transition: border 0.3s;
+    }
+
+    textarea:focus { border-color: #667eea; }
 
     .ai-reply {
       margin-top: 15px;
@@ -111,54 +190,14 @@
       display: none;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-    }
-
-    th {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      padding: 12px;
-      text-align: left;
-      font-size: 14px;
-    }
-
-    th:first-child { border-radius: 8px 0 0 0; }
-    th:last-child { border-radius: 0 8px 0 0; }
-
-    td {
-      padding: 12px;
-      border-bottom: 1px solid #f0f0f0;
-      font-size: 14px;
-      color: #555;
-    }
-
-    tr:hover td { background: #f8f9ff; }
-
-    .empty {
-      text-align: center;
-      color: #aaa;
-      padding: 20px;
-      font-size: 14px;
-    }
-
-    .loading {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #667eea;
-      font-size: 14px;
-      margin-top: 15px;
-    }
-
     .dot {
       width: 8px;
       height: 8px;
       background: #667eea;
       border-radius: 50%;
+      display: inline-block;
       animation: bounce 1s infinite;
+      margin: 0 2px;
     }
 
     .dot:nth-child(2) { animation-delay: 0.2s; }
@@ -171,81 +210,136 @@
   </style>
 </head>
 <body>
-  <div class="container">
 
-    <h1> My First App</h1>
-    <p class="subtitle">Frontend + Backend + Database + AI</p>
+  <!-- Login/Signup Section -->
+  <div class="container" id="auth-section">
+    <h1>🚀 My First App</h1>
+    <p class="subtitle">Sign in to continue</p>
 
-    <!-- Save User Card -->
     <div class="card">
-      <h2>👤 Save a User</h2>
-      <input type="text" id="name" placeholder="Enter your name" />
-      <input type="email" id="email" placeholder="Enter your email" />
-      <button onclick="saveUser()"> Save User</button>
-      <div class="message" id="message"></div>
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('login')">Login</div>
+        <div class="tab" onclick="switchTab('signup')">Sign Up</div>
+      </div>
+
+      <!-- Login Form -->
+      <div class="form active" id="login-form">
+        <input type="email" id="login-email" placeholder="Email address" />
+        <input type="password" id="login-password" placeholder="Password" />
+        <button onclick="login()">Login →</button>
+        <div class="message" id="login-message"></div>
+      </div>
+
+      <!-- Signup Form -->
+      <div class="form" id="signup-form">
+        <input type="text" id="signup-name" placeholder="Your name" />
+        <input type="email" id="signup-email" placeholder="Email address" />
+        <input type="password" id="signup-password" placeholder="Password" />
+        <button onclick="signup()">Create Account →</button>
+        <div class="message" id="signup-message"></div>
+      </div>
     </div>
+  </div>
 
-    <!-- Show Users Card -->
-    <div class="card">
-      <h2>📋 All Users</h2>
-      <button onclick="getUsers()">Show All Users</button>
-      <div id="users"></div>
-    </div>
+  <!-- Dashboard Section -->
+  <div class="container dashboard" id="dashboard-section">
+    <div class="dashboard-card">
+      <div class="dashboard-header">
+        <span class="welcome" id="welcome-text">👋 Welcome!</span>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
 
-    <!-- AI Chat Card -->
-    <div class="card">
-      <h2> Ask AI Anything</h2>
+      <h3 style="margin-bottom:15px; color:#333;">🤖 Ask AI Anything</h3>
       <textarea id="ai-input" placeholder="Type your question here..." rows="3"></textarea>
-      <button onclick="askAI()">Ask AI </button>
+      <button onclick="askAI()">Ask AI 🚀</button>
       <div class="ai-reply" id="ai-reply"></div>
     </div>
-
   </div>
 
   <script>
-    async function saveUser() {
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
+    let currentUser = null;
 
-      if (!name || !email) {
-        showMessage('Please enter both name and email!', 'error');
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.form').forEach(f => f.classList.remove('active'));
+
+      if (tab === 'login') {
+        document.querySelectorAll('.tab')[0].classList.add('active');
+        document.getElementById('login-form').classList.add('active');
+      } else {
+        document.querySelectorAll('.tab')[1].classList.add('active');
+        document.getElementById('signup-form').classList.add('active');
+      }
+    }
+
+    function showMessage(id, text, type) {
+      const msg = document.getElementById(id);
+      msg.className = 'message ' + type;
+      msg.innerText = text;
+      setTimeout(() => { msg.className = 'message'; }, 3000);
+    }
+
+    async function signup() {
+      const name = document.getElementById('signup-name').value;
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+
+      if (!name || !email || !password) {
+        showMessage('signup-message', 'Please fill all fields!', 'error');
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/save-user', {
+      const response = await fetch('http://localhost:5000/api/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email })
+        body: JSON.stringify({ name, email, password })
       });
 
       const data = await response.json();
-      showMessage('✅ ' + data.message);
-      document.getElementById('name').value = '';
-      document.getElementById('email').value = '';
+
+      if (data.error) {
+        showMessage('signup-message', data.error, 'error');
+      } else {
+        showMessage('signup-message', '✅ ' + data.message, 'success');
+        setTimeout(() => switchTab('login'), 1500);
+      }
     }
 
-    function showMessage(text) {
-      const msg = document.getElementById('message');
-      msg.style.display = 'block';
-      msg.innerText = text;
-      setTimeout(() => { msg.style.display = 'none'; }, 3000);
-    }
+    async function login() {
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
 
-    async function getUsers() {
-      const response = await fetch('http://localhost:5000/api/get-users');
-      const users = await response.json();
-
-      if (users.length === 0) {
-        document.getElementById('users').innerHTML = '<p class="empty">No users yet! Save one above. 👆</p>';
+      if (!email || !password) {
+        showMessage('login-message', 'Please fill all fields!', 'error');
         return;
       }
 
-      let html = '<table><tr><th>ID</th><th>Name</th><th>Email</th></tr>';
-      users.forEach(user => {
-        html += `<tr><td>${user[0]}</td><td>${user[1]}</td><td>${user[2]}</td></tr>`;
+      const response = await fetch('http://localhost:5000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
       });
-      html += '</table>';
-      document.getElementById('users').innerHTML = html;
+
+      const data = await response.json();
+
+      if (data.error) {
+        showMessage('login-message', data.error, 'error');
+      } else {
+        currentUser = data.user;
+        showDashboard();
+      }
+    }
+
+    function showDashboard() {
+      document.getElementById('auth-section').style.display = 'none';
+      document.getElementById('dashboard-section').classList.add('active');
+      document.getElementById('welcome-text').innerText = '👋 Welcome, ' + currentUser.name + '!';
+    }
+
+    function logout() {
+      currentUser = null;
+      document.getElementById('auth-section').style.display = 'flex';
+      document.getElementById('dashboard-section').classList.remove('active');
     }
 
     async function askAI() {
@@ -254,7 +348,7 @@
 
       const reply = document.getElementById('ai-reply');
       reply.style.display = 'block';
-      reply.innerHTML = '<div class="loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div> AI is thinking...</div>';
+      reply.innerHTML = '<div><div class="dot"></div><div class="dot"></div><div class="dot"></div> AI is thinking...</div>';
 
       const response = await fetch('http://localhost:5000/api/ask-ai', {
         method: 'POST',
@@ -263,14 +357,11 @@
       });
 
       const data = await response.json();
-      console.log("AI response:", data);
-if (data.reply) {
-  reply.innerText = ' ' + data.reply;
-} else if (data.error) {
-  reply.innerText = ' Error: ' + data.error;
-} else {
-  reply.innerText = ' ' + JSON.stringify(data);
-}
+      if (data.reply) {
+        reply.innerText = '🤖 ' + data.reply;
+      } else {
+        reply.innerText = '❌ ' + data.error;
+      }
     }
   </script>
 
