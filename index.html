@@ -1,102 +1,216 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My First App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h1 {
       text-align: center;
-      margin-top: 30px;
-      background-color: #f0f0f0;
+      color: white;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 40px;
+      font-size: 1.1rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 25px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    }
+
+    .card h2 {
+      font-size: 1.3rem;
+      color: #333;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     input, textarea {
-      padding: 10px;
-      margin: 5px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      width: 250px;
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      margin-bottom: 12px;
+      transition: border 0.3s;
+      outline: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #667eea;
     }
 
     button {
-      padding: 12px 25px;
-      margin: 10px;
-      font-size: 16px;
-      background-color: #4CAF50;
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
       border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    button:hover { background-color: #45a049; }
-
-    #message { margin-top: 20px; font-size: 18px; color: green; }
-
-    #ai-reply {
-      margin: 20px auto;
-      width: 50%;
-      background: white;
-      padding: 20px;
       border-radius: 10px;
       font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, opacity 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    button:active { transform: translateY(0); }
+
+    .message {
+      margin-top: 15px;
+      padding: 12px;
+      background: #f0fff4;
+      border: 1px solid #9ae6b4;
+      border-radius: 10px;
+      color: #276749;
+      font-size: 14px;
+      display: none;
+    }
+
+    .ai-reply {
+      margin-top: 15px;
+      padding: 16px;
+      background: linear-gradient(135deg, #f8f9ff, #f0f0ff);
+      border-left: 4px solid #667eea;
+      border-radius: 10px;
       color: #333;
-      text-align: left;
+      font-size: 15px;
+      line-height: 1.6;
       display: none;
     }
 
     table {
-      margin: 0 auto;
+      width: 100%;
       border-collapse: collapse;
-      width: 50%;
+      margin-top: 15px;
     }
 
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
+    th {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 12px;
       text-align: left;
+      font-size: 14px;
     }
 
-    th { background-color: #4CAF50; color: white; }
+    th:first-child { border-radius: 8px 0 0 0; }
+    th:last-child { border-radius: 0 8px 0 0; }
 
-    hr { margin: 40px auto; width: 50%; }
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    tr:hover td { background: #f8f9ff; }
+
+    .empty {
+      text-align: center;
+      color: #aaa;
+      padding: 20px;
+      font-size: 14px;
+    }
+
+    .loading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #667eea;
+      font-size: 14px;
+      margin-top: 15px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: #667eea;
+      border-radius: 50%;
+      animation: bounce 1s infinite;
+    }
+
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
   </style>
 </head>
 <body>
+  <div class="container">
 
-  <h1>🎉 My First App</h1>
+    <h1> My First App</h1>
+    <p class="subtitle">Frontend + Backend + Database + AI</p>
 
-  <!-- Save User Section -->
-  <hr>
-  <h2>👤 Save a User</h2>
-  <input type="text" id="name" placeholder="Enter name" />
-  <br>
-  <input type="text" id="email" placeholder="Enter email" />
-  <br>
-  <button onclick="saveUser()">💾 Save User</button>
-  <p id="message"></p>
+    <!-- Save User Card -->
+    <div class="card">
+      <h2>👤 Save a User</h2>
+      <input type="text" id="name" placeholder="Enter your name" />
+      <input type="email" id="email" placeholder="Enter your email" />
+      <button onclick="saveUser()"> Save User</button>
+      <div class="message" id="message"></div>
+    </div>
 
-  <!-- Show Users Section -->
-  <hr>
-  <h2>📋 All Users in Database</h2>
-  <button onclick="getUsers()">Show All Users</button>
-  <div id="users"></div>
+    <!-- Show Users Card -->
+    <div class="card">
+      <h2>📋 All Users</h2>
+      <button onclick="getUsers()">Show All Users</button>
+      <div id="users"></div>
+    </div>
 
-  <!-- AI Chat Section -->
-  <hr>
-  <h2>🤖 Ask AI Anything</h2>
-  <textarea id="ai-input" placeholder="Type your question here..." rows="3"></textarea>
-  <br>
-  <button onclick="askAI()">Ask AI 🚀</button>
+    <!-- AI Chat Card -->
+    <div class="card">
+      <h2> Ask AI Anything</h2>
+      <textarea id="ai-input" placeholder="Type your question here..." rows="3"></textarea>
+      <button onclick="askAI()">Ask AI </button>
+      <div class="ai-reply" id="ai-reply"></div>
+    </div>
 
-  <div id="ai-reply"></div>
+  </div>
 
   <script>
-    // Save user
     async function saveUser() {
       const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
+
+      if (!name || !email) {
+        showMessage('Please enter both name and email!', 'error');
+        return;
+      }
 
       const response = await fetch('http://localhost:5000/api/save-user', {
         method: 'POST',
@@ -105,27 +219,42 @@
       });
 
       const data = await response.json();
-      document.getElementById('message').innerText = data.message;
+      showMessage('✅ ' + data.message);
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+    }
+
+    function showMessage(text) {
+      const msg = document.getElementById('message');
+      msg.style.display = 'block';
+      msg.innerText = text;
+      setTimeout(() => { msg.style.display = 'none'; }, 3000);
     }
 
     async function getUsers() {
       const response = await fetch('http://localhost:5000/api/get-users');
       const users = await response.json();
 
+      if (users.length === 0) {
+        document.getElementById('users').innerHTML = '<p class="empty">No users yet! Save one above. 👆</p>';
+        return;
+      }
+
       let html = '<table><tr><th>ID</th><th>Name</th><th>Email</th></tr>';
       users.forEach(user => {
         html += `<tr><td>${user[0]}</td><td>${user[1]}</td><td>${user[2]}</td></tr>`;
       });
       html += '</table>';
-
       document.getElementById('users').innerHTML = html;
     }
 
     async function askAI() {
       const message = document.getElementById('ai-input').value;
+      if (!message) return;
 
-      document.getElementById('ai-reply').style.display = 'block';
-      document.getElementById('ai-reply').innerText = '⏳ AI is thinking...';
+      const reply = document.getElementById('ai-reply');
+      reply.style.display = 'block';
+      reply.innerHTML = '<div class="loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div> AI is thinking...</div>';
 
       const response = await fetch('http://localhost:5000/api/ask-ai', {
         method: 'POST',
@@ -134,10 +263,16 @@
       });
 
       const data = await response.json();
-      document.getElementById('ai-reply').innerText = '🤖 ' + data.reply;
+      console.log("AI response:", data);
+if (data.reply) {
+  reply.innerText = ' ' + data.reply;
+} else if (data.error) {
+  reply.innerText = ' Error: ' + data.error;
+} else {
+  reply.innerText = ' ' + JSON.stringify(data);
+}
     }
   </script>
 
-  </body>
+</body>
 </html>
-      

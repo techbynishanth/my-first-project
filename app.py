@@ -8,9 +8,12 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+print("API KEY LOADED:", GROQ_API_KEY)  # we'll check if key loads
+
 groq_client = Groq(api_key=GROQ_API_KEY)
 
 # Create database
@@ -33,13 +36,11 @@ def save_user():
     data = request.json
     name = data.get('name')
     email = data.get('email')
-
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     cursor.execute('INSERT INTO users (name, email) VALUES (?, ?)', (name, email))
     conn.commit()
     conn.close()
-
     return jsonify({ "message": "User saved to database!" })
 
 # Get all users
@@ -55,16 +56,23 @@ def get_users():
 # Ask AI
 @app.route('/api/ask-ai', methods=['POST'])
 def ask_ai():
-    data = request.json
-    user_message = data.get('message')
+    try:
+        data = request.json
+        user_message = data.get('message')
+        print("User asked:", user_message)
 
-    response = groq_client.chat.completions.create(
-        model="llama3-8b-8192",
-        messages=[{ "role": "user", "content": user_message }]
-    )
+        response = groq_client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[{ "role": "user", "content": user_message }]
+        )
 
-    reply = response.choices[0].message.content
-    return jsonify({ "reply": reply })
+        reply = response.choices[0].message.content
+        print("AI replied:", reply)
+        return jsonify({ "reply": reply })
+
+    except Exception as e:
+        print("ERROR:", str(e))
+        return jsonify({ "error": str(e) }), 500
 
 if __name__ == '__main__':
     init_db()
