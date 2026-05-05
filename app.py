@@ -1,3 +1,4 @@
+# My first full stack AI app - by Nishanth
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from groq import Groq
