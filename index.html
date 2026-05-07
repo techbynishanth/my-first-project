@@ -3,50 +3,269 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My First App</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <title>FreeAI Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 450px;
-    }
-
-    h1 {
-      text-align: center;
+      background: #0f0f1a;
       color: white;
-      font-size: 2rem;
-      margin-bottom: 10px;
+      min-height: 100vh;
     }
 
-    .subtitle {
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-buttons { display: flex; gap: 10px; align-items: center; }
+
+    .nav-btn {
+      padding: 8px 20px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s;
+    }
+
+    .nav-btn.outline {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+    }
+
+    .nav-btn.primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    .nav-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    .welcome-text {
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+    }
+
+    /* Hero */
+    .hero {
       text-align: center;
-      color: rgba(255,255,255,0.8);
+      padding: 80px 20px 40px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: rgba(255,255,255,0.6);
+      font-size: 1.1rem;
       margin-bottom: 30px;
     }
 
-    .card {
-      background: white;
+    /* Search */
+    .search-bar {
+      display: flex;
+      max-width: 500px;
+      margin: 0 auto 40px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 14px 20px;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+    }
+
+    .search-bar input::placeholder { color: rgba(255,255,255,0.4); }
+
+    .search-bar button {
+      padding: 14px 20px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* Categories */
+    .categories {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 0 20px 40px;
+    }
+
+    .cat-btn {
+      padding: 8px 18px;
       border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s;
+    }
+
+    .cat-btn.active, .cat-btn:hover {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-color: transparent;
+    }
+
+    /* Tools Grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 0 40px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .tool-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(102,126,234,0.5);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .tool-emoji { font-size: 2.5rem; margin-bottom: 12px; }
+
+    .tool-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .tool-description {
+      color: rgba(255,255,255,0.6);
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .tool-category {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(102,126,234,0.2);
+      border-radius: 20px;
+      font-size: 11px;
+      color: #667eea;
+      margin-bottom: 15px;
+    }
+
+    .tool-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .visit-btn {
+      flex: 1;
+      padding: 10px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .fav-btn {
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    .fav-btn:hover { background: rgba(255,100,100,0.2); }
+
+    /* Auth Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal {
+      background: #1a1a2e;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .modal h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 1.5rem;
     }
 
     .tabs {
       display: flex;
       margin-bottom: 25px;
-      background: #f0f0f0;
+      background: rgba(255,255,255,0.05);
       border-radius: 10px;
       padding: 4px;
     }
@@ -59,24 +278,25 @@
       cursor: pointer;
       font-weight: 600;
       font-size: 14px;
-      color: #888;
+      color: rgba(255,255,255,0.5);
       transition: all 0.3s;
     }
 
     .tab.active {
-      background: white;
-      color: #667eea;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
     }
 
     .form { display: none; }
     .form.active { display: block; }
 
-    input {
+    .modal input {
       width: 100%;
       padding: 12px 16px;
-      border: 2px solid #e0e0e0;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
       border-radius: 10px;
+      color: white;
       font-size: 15px;
       font-family: 'Inter', sans-serif;
       margin-bottom: 12px;
@@ -84,9 +304,10 @@
       transition: border 0.3s;
     }
 
-    input:focus { border-color: #667eea; }
+    .modal input:focus { border-color: #667eea; }
+    .modal input::placeholder { color: rgba(255,255,255,0.3); }
 
-    button {
+    .modal button {
       width: 100%;
       padding: 14px;
       background: linear-gradient(135deg, #667eea, #764ba2);
@@ -97,172 +318,260 @@
       font-weight: 600;
       cursor: pointer;
       font-family: 'Inter', sans-serif;
-      transition: transform 0.2s;
       margin-top: 5px;
     }
 
-    button:hover { transform: translateY(-2px); }
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.5);
+      font-size: 24px;
+      cursor: pointer;
+      width: auto;
+      padding: 0;
+    }
 
-    .message {
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 10px;
-      font-size: 14px;
+    .msg {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
       text-align: center;
       display: none;
     }
 
-    .message.success {
-      background: #f0fff4;
-      border: 1px solid #9ae6b4;
-      color: #276749;
+    .msg.success {
+      background: rgba(0,255,100,0.1);
+      border: 1px solid rgba(0,255,100,0.3);
+      color: #00ff64;
       display: block;
     }
 
-    .message.error {
-      background: #fff5f5;
-      border: 1px solid #feb2b2;
-      color: #c53030;
+    .msg.error {
+      background: rgba(255,0,0,0.1);
+      border: 1px solid rgba(255,0,0,0.3);
+      color: #ff6b6b;
       display: block;
     }
 
-    /* Dashboard */
-    .dashboard { display: none; }
-
-    .dashboard.active {
-      display: block;
+    /* AI Assistant */
+    .ai-section {
       max-width: 800px;
+      margin: 0 auto 60px;
+      padding: 0 40px;
     }
 
-    .dashboard-card {
-      background: white;
+    .ai-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(102,126,234,0.3);
       border-radius: 20px;
       padding: 30px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
     }
 
-    .dashboard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .ai-card h2 {
       margin-bottom: 20px;
-    }
-
-    .welcome {
-      color: #333;
       font-size: 1.3rem;
-      font-weight: 700;
     }
 
-    .logout-btn {
-      width: auto;
-      padding: 8px 20px;
-      font-size: 14px;
-      background: #ff6b6b;
-      margin-top: 0;
-    }
-
-    textarea {
+    .ai-card textarea {
       width: 100%;
-      padding: 12px 16px;
-      border: 2px solid #e0e0e0;
+      padding: 14px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
       border-radius: 10px;
+      color: white;
       font-size: 15px;
       font-family: 'Inter', sans-serif;
-      margin-bottom: 12px;
-      outline: none;
       resize: none;
-      transition: border 0.3s;
+      outline: none;
+      margin-bottom: 12px;
     }
 
-    textarea:focus { border-color: #667eea; }
+    .ai-card textarea::placeholder { color: rgba(255,255,255,0.3); }
+
+    .ai-card button {
+      padding: 12px 30px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
 
     .ai-reply {
-      margin-top: 15px;
+      margin-top: 20px;
       padding: 16px;
-      background: linear-gradient(135deg, #f8f9ff, #f0f0ff);
+      background: rgba(102,126,234,0.1);
       border-left: 4px solid #667eea;
       border-radius: 10px;
-      color: #333;
-      font-size: 15px;
-      line-height: 1.6;
+      color: rgba(255,255,255,0.9);
+      font-size: 14px;
+      line-height: 1.7;
       display: none;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      background: #667eea;
-      border-radius: 50%;
-      display: inline-block;
-      animation: bounce 1s infinite;
-      margin: 0 2px;
-    }
-
-    .dot:nth-child(2) { animation-delay: 0.2s; }
-    .dot:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
     }
   </style>
 </head>
 <body>
 
-  <!-- Login/Signup Section -->
-  <div class="container" id="auth-section">
-    <h1>🚀 My First App</h1>
-    <p class="subtitle">Sign in to continue</p>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">🤖 FreeAI Tools</div>
+    <div class="nav-buttons" id="nav-buttons">
+      <span class="welcome-text" id="welcome-text" style="display:none"></span>
+      <button class="nav-btn outline" id="login-btn" onclick="openModal('login')">Login</button>
+      <button class="nav-btn primary" id="signup-btn" onclick="openModal('signup')">Sign Up</button>
+      <button class="nav-btn outline" id="logout-btn" style="display:none" onclick="logout()">Logout</button>
+    </div>
+  </nav>
 
-    <div class="card">
-      <div class="tabs">
-        <div class="tab active" onclick="switchTab('login')">Login</div>
-        <div class="tab" onclick="switchTab('signup')">Sign Up</div>
-      </div>
+  <!-- Hero -->
+  <div class="hero">
+    <h1>Discover Free AI Tools</h1>
+    <p>Find the best free AI tools for any task — no paid subscriptions needed!</p>
 
-      <!-- Login Form -->
-      <div class="form active" id="login-form">
-        <input type="email" id="login-email" placeholder="Email address" />
-        <input type="password" id="login-password" placeholder="Password" />
-        <button onclick="login()">Login →</button>
-        <div class="message" id="login-message"></div>
-      </div>
-
-      <!-- Signup Form -->
-      <div class="form" id="signup-form">
-        <input type="text" id="signup-name" placeholder="Your name" />
-        <input type="email" id="signup-email" placeholder="Email address" />
-        <input type="password" id="signup-password" placeholder="Password" />
-        <button onclick="signup()">Create Account →</button>
-        <div class="message" id="signup-message"></div>
-      </div>
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Search AI tools..." onkeyup="searchTools()"/>
+      <button onclick="searchTools()">🔍</button>
     </div>
   </div>
 
-  <!-- Dashboard Section -->
-  <div class="container dashboard" id="dashboard-section">
-    <div class="dashboard-card">
-      <div class="dashboard-header">
-        <span class="welcome" id="welcome-text">👋 Welcome!</span>
-        <button class="logout-btn" onclick="logout()">Logout</button>
-      </div>
+  <!-- Categories -->
+  <div class="categories">
+    <button class="cat-btn active" onclick="filterCategory('All', this)">⭐ All</button>
+    <button class="cat-btn" onclick="filterCategory('Image Generation', this)">🎨 Image</button>
+    <button class="cat-btn" onclick="filterCategory('Video Editing', this)">🎬 Video</button>
+    <button class="cat-btn" onclick="filterCategory('Animation', this)">🎭 Animation</button>
+    <button class="cat-btn" onclick="filterCategory('PDF & Docs', this)">📄 PDF & Docs</button>
+    <button class="cat-btn" onclick="filterCategory('Writing & Chat', this)">✍️ Writing</button>
+    <button class="cat-btn" onclick="filterCategory('Audio & Music', this)">🎵 Audio</button>
+    <button class="cat-btn" onclick="filterCategory('Design', this)">💡 Design</button>
+    <button class="cat-btn" onclick="filterCategory('Coding', this)">💻 Coding</button>
+  </div>
 
-      <h3 style="margin-bottom:15px; color:#333;">🤖 Ask AI Anything</h3>
-      <textarea id="ai-input" placeholder="Type your question here..." rows="3"></textarea>
+  <!-- Tools Grid -->
+  <div class="tools-grid" id="tools-grid"></div>
+
+  <!-- AI Assistant -->
+  <div class="ai-section">
+    <div class="ai-card">
+      <h2>🤖 Ask AI — Which tool should I use?</h2>
+      <textarea id="ai-input" rows="3" placeholder="e.g. I want to make an animated video for my YouTube channel..."></textarea>
       <button onclick="askAI()">Ask AI 🚀</button>
       <div class="ai-reply" id="ai-reply"></div>
     </div>
   </div>
 
+  <!-- Auth Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" style="position:relative">
+      <button class="close-btn" onclick="closeModal()">×</button>
+      <h2>Welcome Back 👋</h2>
+
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('login')">Login</div>
+        <div class="tab" onclick="switchTab('signup')">Sign Up</div>
+      </div>
+
+      <div class="form active" id="login-form">
+        <input type="email" id="login-email" placeholder="Email address"/>
+        <input type="password" id="login-password" placeholder="Password"/>
+        <button onclick="login()">Login →</button>
+        <div class="msg" id="login-msg"></div>
+      </div>
+
+      <div class="form" id="signup-form">
+        <input type="text" id="signup-name" placeholder="Your name"/>
+        <input type="email" id="signup-email" placeholder="Email address"/>
+        <input type="password" id="signup-password" placeholder="Password"/>
+        <button onclick="signup()">Create Account →</button>
+        <div class="msg" id="signup-msg"></div>
+      </div>
+    </div>
+  </div>
+
   <script>
     let currentUser = null;
+    let currentCategory = 'All';
+
+    // Load tools on page load
+    window.onload = () => loadTools();
+
+    async function loadTools(category = 'All', search = '') {
+      let url = 'http://localhost:5000/api/tools';
+      if (category !== 'All') url += `?category=${encodeURIComponent(category)}`;
+      if (search) url += `?search=${encodeURIComponent(search)}`;
+
+      const response = await fetch(url);
+      const tools = await response.json();
+      renderTools(tools);
+    }
+
+    function renderTools(tools) {
+      const grid = document.getElementById('tools-grid');
+      if (tools.length === 0) {
+        grid.innerHTML = '<p style="color:rgba(255,255,255,0.5); text-align:center; grid-column:1/-1; padding:40px;">No tools found!</p>';
+        return;
+      }
+
+      grid.innerHTML = tools.map(tool => `
+        <div class="tool-card">
+          <div class="tool-emoji">${tool.emoji}</div>
+          <div class="tool-name">${tool.name}</div>
+          <div class="tool-description">${tool.description}</div>
+          <div class="tool-category">${tool.category}</div>
+          <div class="tool-actions">
+            <a href="${tool.link}" target="_blank" class="visit-btn">Visit Tool →</a>
+            <button class="fav-btn" onclick="saveFavourite(${tool.id})" title="Save to favourites">❤️</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterCategory(category, btn) {
+      currentCategory = category;
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      loadTools(category);
+    }
+
+    function searchTools() {
+      const search = document.getElementById('search-input').value;
+      loadTools('All', search);
+    }
+
+    async function saveFavourite(toolId) {
+      if (!currentUser) {
+        openModal('login');
+        return;
+      }
+      const response = await fetch('http://localhost:5000/api/favourite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: currentUser.id, tool_id: toolId })
+      });
+      const data = await response.json();
+      alert('❤️ ' + data.message);
+    }
+
+    // Auth Modal
+    function openModal(tab) {
+      document.getElementById('modal-overlay').classList.add('active');
+      switchTab(tab);
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('active');
+    }
 
     function switchTab(tab) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.form').forEach(f => f.classList.remove('active'));
-
       if (tab === 'login') {
         document.querySelectorAll('.tab')[0].classList.add('active');
         document.getElementById('login-form').classList.add('active');
@@ -272,35 +581,31 @@
       }
     }
 
-    function showMessage(id, text, type) {
+    function showMsg(id, text, type) {
       const msg = document.getElementById(id);
-      msg.className = 'message ' + type;
+      msg.className = 'msg ' + type;
       msg.innerText = text;
-      setTimeout(() => { msg.className = 'message'; }, 3000);
+      setTimeout(() => { msg.className = 'msg'; }, 3000);
     }
 
     async function signup() {
       const name = document.getElementById('signup-name').value;
       const email = document.getElementById('signup-email').value;
       const password = document.getElementById('signup-password').value;
-
       if (!name || !email || !password) {
-        showMessage('signup-message', 'Please fill all fields!', 'error');
+        showMsg('signup-msg', 'Please fill all fields!', 'error');
         return;
       }
-
       const response = await fetch('http://localhost:5000/api/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })
       });
-
       const data = await response.json();
-
       if (data.error) {
-        showMessage('signup-message', data.error, 'error');
+        showMsg('signup-msg', data.error, 'error');
       } else {
-        showMessage('signup-message', '✅ ' + data.message, 'success');
+        showMsg('signup-msg', '✅ ' + data.message, 'success');
         setTimeout(() => switchTab('login'), 1500);
       }
     }
@@ -308,60 +613,50 @@
     async function login() {
       const email = document.getElementById('login-email').value;
       const password = document.getElementById('login-password').value;
-
       if (!email || !password) {
-        showMessage('login-message', 'Please fill all fields!', 'error');
+        showMsg('login-msg', 'Please fill all fields!', 'error');
         return;
       }
-
       const response = await fetch('http://localhost:5000/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
-
       const data = await response.json();
-
       if (data.error) {
-        showMessage('login-message', data.error, 'error');
+        showMsg('login-msg', data.error, 'error');
       } else {
         currentUser = data.user;
-        showDashboard();
+        closeModal();
+        document.getElementById('login-btn').style.display = 'none';
+        document.getElementById('signup-btn').style.display = 'none';
+        document.getElementById('logout-btn').style.display = 'block';
+        document.getElementById('welcome-text').style.display = 'block';
+        document.getElementById('welcome-text').innerText = '👋 ' + currentUser.name;
       }
-    }
-
-    function showDashboard() {
-      document.getElementById('auth-section').style.display = 'none';
-      document.getElementById('dashboard-section').classList.add('active');
-      document.getElementById('welcome-text').innerText = '👋 Welcome, ' + currentUser.name + '!';
     }
 
     function logout() {
       currentUser = null;
-      document.getElementById('auth-section').style.display = 'flex';
-      document.getElementById('dashboard-section').classList.remove('active');
+      document.getElementById('login-btn').style.display = 'block';
+      document.getElementById('signup-btn').style.display = 'block';
+      document.getElementById('logout-btn').style.display = 'none';
+      document.getElementById('welcome-text').style.display = 'none';
     }
 
     async function askAI() {
       const message = document.getElementById('ai-input').value;
       if (!message) return;
-
       const reply = document.getElementById('ai-reply');
       reply.style.display = 'block';
-      reply.innerHTML = '<div><div class="dot"></div><div class="dot"></div><div class="dot"></div> AI is thinking...</div>';
-
+      reply.innerText = '⏳ AI is thinking...';
       const response = await fetch('http://localhost:5000/api/ask-ai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message })
+        body: JSON.stringify({ message: 'You are a helpful assistant that recommends free AI tools. ' + message })
       });
-
       const data = await response.json();
-      if (data.reply) {
-        reply.innerText = '🤖 ' + data.reply;
-      } else {
-        reply.innerText = '❌ ' + data.error;
-      }
+      reply.innerText = data.reply ? '🤖 ' + data.reply : '❌ ' + data.error;
     }
   </script>
 
