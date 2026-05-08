@@ -541,9 +541,13 @@
     }
 
     function searchTools() {
-      const search = document.getElementById('search-input').value;
-      loadTools('All', search);
-    }
+  const search = document.getElementById('search-input').value;
+  if (search === '') {
+    loadTools(currentCategory);
+  } else {
+    loadTools('All', search);
+  }
+}
 
     async function saveFavourite(toolId) {
       if (!currentUser) {
