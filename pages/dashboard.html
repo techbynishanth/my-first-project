@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FreeAI Tools — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --bg: #f8fafc;
+      --shadow: 0 1px 3px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+      height: 64px;
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .user-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: #ede9fe;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+    }
+
+    .btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    .btn-danger {
+      border-color: #fca5a5;
+      color: #ef4444;
+      background: white;
+    }
+
+    .btn-danger:hover { background: #fef2f2; }
+
+    /* LAYOUT */
+    .layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: calc(100vh - 64px);
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      background: white;
+      border-right: 1px solid var(--border);
+      padding: 24px 16px;
+    }
+
+    .sidebar-menu { display: flex; flex-direction: column; gap: 4px; }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: all 0.2s;
+      border: none;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      width: 100%;
+      text-align: left;
+    }
+
+    .menu-item:hover { background: #f1f5f9; color: var(--text); }
+
+    .menu-item.active {
+      background: #ede9fe;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .menu-icon { font-size: 1.1rem; }
+
+    /* MAIN */
+    .main { padding: 32px 40px; }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .page-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+
+    /* STATS */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    /* TOOLS GRID */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .tool-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      transition: all 0.2s;
+    }
+
+    .tool-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .tool-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .tool-icon {
+      width: 44px;
+      height: 44px;
+      background: #ede9fe;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .tool-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .tool-category {
+      font-size: 12px;
+      color: var(--primary);
+    }
+
+    .tool-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .tool-actions { display: flex; gap: 8px; }
+
+    .visit-btn {
+      flex: 1;
+      padding: 8px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .remove-btn {
+      padding: 8px 12px;
+      background: white;
+      border: 1px solid #fca5a5;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      color: #ef4444;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .remove-btn:hover { background: #fef2f2; }
+
+    /* AI SECTION */
+    .ai-box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      max-width: 700px;
+    }
+
+    .ai-box textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      resize: none;
+      outline: none;
+      color: var(--text);
+      margin-bottom: 12px;
+      transition: border 0.2s;
+    }
+
+    .ai-box textarea:focus { border-color: var(--primary); }
+
+    .ai-submit {
+      padding: 11px 24px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .ai-reply {
+      margin-top: 16px;
+      padding: 16px;
+      background: #f8faff;
+      border: 1px solid #e0e7ff;
+      border-left: 4px solid var(--primary);
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.7;
+      display: none;
+    }
+
+    /* EMPTY STATE */
+    .empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-icon { font-size: 3rem; margin-bottom: 16px; }
+    .empty h3 { font-size: 1.1rem; margin-bottom: 8px; color: var(--text); }
+    .empty p { font-size: 14px; margin-bottom: 20px; }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary:hover { background: var(--primary-dark); color: white; }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      padding: 14px 20px;
+      background: var(--text);
+      color: white;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      display: none;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo">🤖 FreeAI Tools</a>
+    <div class="nav-right">
+      <div class="user-badge">👤 <span id="user-name">User</span></div>
+      <a href="index.html" class="btn">Browse Tools</a>
+      <button class="btn btn-danger" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <!-- LAYOUT -->
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-menu">
+        <button class="menu-item active" onclick="showPage('overview')">
+          <span class="menu-icon">📊</span> Overview
+        </button>
+        <button class="menu-item" onclick="showPage('favourites')">
+          <span class="menu-icon">❤️</span> Favourites
+        </button>
+        <button class="menu-item" onclick="showPage('ai-assistant')">
+          <span class="menu-icon">🤖</span> AI Assistant
+        </button>
+        <button class="menu-item" onclick="showPage('browse')">
+          <span class="menu-icon">🔍</span> Browse Tools
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- OVERVIEW -->
+      <div class="page active" id="page-overview">
+        <div class="page-title">Welcome back! 👋</div>
+        <div class="page-subtitle">Here's what's happening with your account</div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Saved Favourites</div>
+            <div class="stat-value" id="fav-count">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Total Tools Available</div>
+            <div class="stat-value">24+</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Categories</div>
+            <div class="stat-value">8+</div>
+          </div>
+        </div>
+
+        <div class="page-title" style="font-size:1.1rem; margin-bottom:16px;">Your Favourites</div>
+        <div class="tools-grid" id="overview-favs"></div>
+      </div>
+
+      <!-- FAVOURITES -->
+      <div class="page" id="page-favourites">
+        <div class="page-title">❤️ Your Favourites</div>
+        <div class="page-subtitle">Tools you have saved for quick access</div>
+        <div class="tools-grid" id="fav-grid"></div>
+      </div>
+
+      <!-- AI ASSISTANT -->
+      <div class="page" id="page-ai-assistant">
+        <div class="page-title">🤖 AI Assistant</div>
+        <div class="page-subtitle">Ask AI which tool is best for your task</div>
+        <div class="ai-box">
+          <textarea id="ai-input" rows="4" placeholder="e.g. I want to create a short animated video for Instagram..."></textarea>
+          <button class="ai-submit" onclick="askAI()">Ask AI →</button>
+          <div class="ai-reply" id="ai-reply"></div>
+        </div>
+      </div>
+
+      <!-- BROWSE -->
+      <div class="page" id="page-browse">
+        <div class="page-title">🔍 Browse All Tools</div>
+        <div class="page-subtitle">Discover and save free AI tools</div>
+        <div style="display:flex; gap:10px; margin-bottom:20px;">
+          <input type="text" id="browse-search" placeholder="Search tools..."
+            style="flex:1; padding:10px 14px; border:1px solid var(--border); border-radius:8px; font-family:'Inter',sans-serif; outline:none; font-size:14px;"
+            onkeyup="browseSearch()"/>
+        </div>
+        <div class="tools-grid" id="browse-grid"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // Check login
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    if (!user) window.location.href = 'auth.html';
+
+    document.getElementById('user-name').innerText = user ? user.name : '';
+
+    // Show page
+    function showPage(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+      document.getElementById('page-' + page).classList.add('active');
+      event.currentTarget.classList.add('active');
+
+      if (page === 'favourites') loadFavourites('fav-grid');
+      if (page === 'browse') loadAllTools();
+      if (page === 'overview') loadOverview();
+    }
+
+    // Load overview
+    async function loadOverview() {
+      const favs = await getFavourites();
+      document.getElementById('fav-count').innerText = favs.length;
+      const grid = document.getElementById('overview-favs');
+      if (favs.length === 0) {
+        grid.innerHTML = `
+          <div class="empty" style="grid-column:1/-1">
+            <div class="empty-icon">❤️</div>
+            <h3>No favourites yet!</h3>
+            <p>Browse tools and save your favourites</p>
+            <button class="btn btn-primary" onclick="showPage('browse'); document.querySelectorAll('.menu-item')[3].classList.add('active'); document.querySelectorAll('.menu-item')[0].classList.remove('active');">Browse Tools</button>
+          </div>`;
+        return;
+      }
+      grid.innerHTML = favs.slice(0, 3).map(tool => toolCard(tool)).join('');
+    }
+
+    // Get favourites
+    async function getFavourites() {
+      const response = await fetch(`http://localhost:5000/api/favourites/${user.id}`);
+      return await response.json();
+    }
+
+    // Load favourites
+    async function loadFavourites(gridId) {
+      const favs = await getFavourites();
+      const grid = document.getElementById(gridId);
+      if (favs.length === 0) {
+        grid.innerHTML = `
+          <div class="empty" style="grid-column:1/-1">
+            <div class="empty-icon">❤️</div>
+            <h3>No favourites yet!</h3>
+            <p>Browse tools and click ❤️ to save them here</p>
+          </div>`;
+        return;
+      }
+      grid.innerHTML = favs.map(tool => toolCard(tool)).join('');
+    }
+
+    // Load all tools
+    async function loadAllTools(search = '') {
+      let url = 'http://localhost:5000/api/tools';
+      if (search) url += `?search=${encodeURIComponent(search)}`;
+      const response = await fetch(url);
+      const tools = await response.json();
+      document.getElementById('browse-grid').innerHTML = tools.map(tool => toolCard(tool)).join('');
+    }
+
+    function browseSearch() {
+      const search = document.getElementById('browse-search').value;
+      loadAllTools(search);
+    }
+
+    // Tool card
+    function toolCard(tool) {
+      return `
+        <div class="tool-card">
+          <div class="tool-header">
+            <div class="tool-icon">${tool.emoji}</div>
+            <div>
+              <div class="tool-name">${tool.name}</div>
+              <div class="tool-category">${tool.category}</div>
+            </div>
+          </div>
+          <div class="tool-desc">${tool.description}</div>
+          <div class="tool-actions">
+            <a href="${tool.link}" target="_blank" class="visit-btn">Visit →</a>
+            <button class="remove-btn" onclick="saveFavourite(${tool.id})">❤️ Save</button>
+          </div>
+        </div>`;
+    }
+
+    // Save favourite
+    async function saveFavourite(toolId) {
+      const response = await fetch('http://localhost:5000/api/favourite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: user.id, tool_id: toolId })
+      });
+      const data = await response.json();
+      showToast('❤️ ' + data.message);
+    }
+
+    // Ask AI
+    async function askAI() {
+      const message = document.getElementById('ai-input').value;
+      if (!message) return;
+      const reply = document.getElementById('ai-reply');
+      reply.style.display = 'block';
+      reply.innerText = '⏳ AI is thinking...';
+      const response = await fetch('http://localhost:5000/api/ask-ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: 'You are a helpful assistant recommending free AI tools. ' + message })
+      });
+      const data = await response.json();
+      reply.innerText = data.reply ? '🤖 ' + data.reply : '❌ ' + data.error;
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.innerText = message;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+
+    function logout() {
+      localStorage.removeItem('user');
+      window.location.href = 'auth.html';
+    }
+
+    // Load overview on start
+    loadOverview();
+  </script>
+
+</body>
+</html>

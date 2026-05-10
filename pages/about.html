@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FreeAI Tools — About</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --bg: #f8fafc;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: white;
+      color: var(--text);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+      height: 64px;
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      border: none;
+    }
+
+    .btn-primary:hover { background: var(--primary-dark); }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 100px 20px 80px;
+      background: linear-gradient(180deg, #f8faff 0%, #ffffff 100%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: #ede9fe;
+      color: var(--primary);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--primary), #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* MISSION */
+    .mission {
+      max-width: 800px;
+      margin: 80px auto;
+      padding: 0 40px;
+      text-align: center;
+    }
+
+    .mission h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .mission p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* VALUES */
+    .values {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 40px;
+    }
+
+    .values-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .values h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .values-subtitle {
+      color: var(--text-muted);
+      margin-bottom: 50px;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .value-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      text-align: left;
+      transition: all 0.2s;
+    }
+
+    .value-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .value-icon { font-size: 2rem; margin-bottom: 14px; }
+
+    .value-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .value-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* TEAM */
+    .team {
+      max-width: 1100px;
+      margin: 80px auto;
+      padding: 0 40px;
+      text-align: center;
+    }
+
+    .team h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .team-subtitle {
+      color: var(--text-muted);
+      margin-bottom: 50px;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 24px;
+    }
+
+    .team-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 20px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .team-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    }
+
+    .team-avatar {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary), #8b5cf6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 16px;
+    }
+
+    .team-name {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .team-role {
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    /* CTA */
+    .cta {
+      background: linear-gradient(135deg, var(--primary), #8b5cf6);
+      padding: 80px 40px;
+      text-align: center;
+      color: white;
+    }
+
+    .cta h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .cta p {
+      font-size: 1rem;
+      opacity: 0.85;
+      margin-bottom: 32px;
+    }
+
+    .btn-white {
+      background: white;
+      color: var(--primary);
+      border: none;
+      padding: 14px 32px;
+      font-size: 15px;
+      border-radius: 10px;
+    }
+
+    .btn-white:hover { opacity: 0.9; }
+
+    /* FOOTER */
+    footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.6);
+      padding: 40px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    footer a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      margin: 0 12px;
+    }
+
+    footer a:hover { color: white; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo">🤖 FreeAI Tools</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <a href="auth.html" class="btn btn-primary">Get Started Free</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">👋 Our Story</div>
+    <h1>Built for <span>Everyone</span><br/>Who Loves AI</h1>
+    <p>We believe everyone should have access to the best free AI tools — without spending a single rupee.</p>
+  </section>
+
+  <!-- MISSION -->
+  <section class="mission">
+    <h2>Our Mission 🎯</h2>
+    <p>
+      FreeAI Tools was built with one simple goal — to make AI accessible to everyone.
+      Whether you're a student, creator, developer, or entrepreneur,
+      we help you find the right free AI tool for any task.
+      No paid subscriptions. No hidden costs. Just free, powerful AI tools
+      organized in one place for you to discover and use.
+    </p>
+  </section>
+
+  <!-- VALUES -->
+  <section class="values">
+    <div class="values-inner">
+      <h2>What We Stand For</h2>
+      <p class="values-subtitle">The principles that guide everything we do</p>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-icon">🆓</div>
+          <div class="value-title">Free Forever</div>
+          <div class="value-desc">Every tool we list is free to use. We believe AI should be accessible to everyone.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🎯</div>
+          <div class="value-title">Quality First</div>
+          <div class="value-desc">We only list tools that are genuinely useful, well maintained and worth your time.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🔒</div>
+          <div class="value-title">Privacy Focused</div>
+          <div class="value-desc">We respect your privacy. No tracking, no selling data, no nonsense.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🚀</div>
+          <div class="value-title">Always Growing</div>
+          <div class="value-desc">We constantly add new tools and categories to keep up with the fast moving AI world.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="team">
+    <h2>Meet the Builder 👨‍💻</h2>
+    <p class="team-subtitle">Built with passion by a solo developer</p>
+    <div class="team-grid" style="max-width:300px; margin:0 auto;">
+      <div class="team-card">
+        <div class="team-avatar">👨‍💻</div>
+        <div class="team-name">Nishanth Kumar</div>
+        <div class="team-role">Founder & Developer</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <h2>Ready to Discover Free AI Tools?</h2>
+    <p>Join thousands of users finding the perfect AI tool for their needs</p>
+    <a href="auth.html" class="btn btn-white">Get Started Free →</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </p>
+    <p style="margin-top:16px;">© 2026 FreeAI Tools. Built by Nishanth 🚀</p>
+  </footer>
+
+</body>
+</html>

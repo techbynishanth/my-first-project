@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FreeAI Tools — Discover Free AI Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #8b5cf6;
+      --bg: #ffffff;
+      --bg-secondary: #f8fafc;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --card-bg: #ffffff;
+      --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+      height: 64px;
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+
+    .btn-primary {
+      background: var(--primary);
+      border: 1px solid var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover { background: var(--primary-dark); }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 100px 20px 80px;
+      background: linear-gradient(180deg, #f8faff 0%, #ffffff 100%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: #ede9fe;
+      color: var(--primary);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin: 0 auto 40px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 60px;
+    }
+
+    .btn-lg {
+      padding: 12px 28px;
+      font-size: 15px;
+      border-radius: 10px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* SEARCH */
+    .search-section {
+      padding: 40px 40px 0;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .search-wrapper {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 12px 18px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border 0.2s;
+      color: var(--text);
+    }
+
+    .search-input:focus { border-color: var(--primary); }
+
+    .search-btn {
+      padding: 12px 24px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* CATEGORIES */
+    .categories {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 20px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .cat-btn {
+      padding: 7px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+
+    .cat-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    .cat-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    /* TOOLS GRID */
+    .tools-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 40px 80px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .tools-count {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .tool-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .tool-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .tool-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .tool-icon {
+      width: 48px;
+      height: 48px;
+      background: #ede9fe;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .tool-info { flex: 1; }
+
+    .tool-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .tool-category {
+      font-size: 12px;
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .tool-description {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .tool-footer {
+      display: flex;
+      gap: 8px;
+    }
+
+    .visit-btn {
+      flex: 1;
+      padding: 9px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.2s;
+    }
+
+    .visit-btn:hover { background: var(--primary-dark); }
+
+    .fav-btn {
+      padding: 9px 14px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .fav-btn:hover { border-color: #ef4444; background: #fef2f2; }
+
+    /* FEATURES */
+    .features {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 40px;
+    }
+
+    .features-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .features h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .features-subtitle {
+      color: var(--text-muted);
+      margin-bottom: 50px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      text-align: left;
+      transition: all 0.2s;
+    }
+
+    .feature-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+
+    .feature-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .feature-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* AI SECTION */
+    .ai-section {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 40px;
+      text-align: center;
+    }
+
+    .ai-section h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .ai-section p {
+      color: var(--text-muted);
+      margin-bottom: 30px;
+    }
+
+    .ai-box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+      text-align: left;
+    }
+
+    .ai-box textarea {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      resize: none;
+      outline: none;
+      color: var(--text);
+      margin-bottom: 12px;
+      transition: border 0.2s;
+    }
+
+    .ai-box textarea:focus { border-color: var(--primary); }
+
+    .ai-reply {
+      margin-top: 16px;
+      padding: 16px;
+      background: #f8faff;
+      border: 1px solid #e0e7ff;
+      border-left: 4px solid var(--primary);
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text);
+      display: none;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.7);
+      padding: 60px 40px 30px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 12px;
+    }
+
+    .footer-desc {
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .footer-col h4 {
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .footer-col a {
+      display: block;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 13px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover { color: white; }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      padding: 14px 20px;
+      background: var(--text);
+      color: white;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      display: none;
+      z-index: 9999;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="logo">🤖 FreeAI Tools</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-actions" id="nav-actions">
+      <a href="auth.html" class="btn btn-outline">Login</a>
+      <a href="auth.html" class="btn btn-primary">Sign Up Free</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">✨ 24+ Free AI Tools</div>
+    <h1>Discover the Best<br/><span>Free AI Tools</span></h1>
+    <p>Find free AI tools for any task — image generation, video editing, coding, writing and more!</p>
+    <div class="hero-actions">
+      <a href="auth.html" class="btn btn-primary btn-lg">Get Started Free →</a>
+      <a href="#tools" class="btn btn-outline btn-lg">Browse Tools</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-number">24+</div>
+        <div class="stat-label">Free Tools</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">8+</div>
+        <div class="stat-label">Categories</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Free Forever</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEARCH -->
+  <div class="search-section" id="tools">
+    <div class="search-wrapper">
+      <input type="text" class="search-input" id="search-input" placeholder="Search AI tools..." onkeyup="searchTools()"/>
+      <button class="search-btn" onclick="searchTools()">Search</button>
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="categories">
+    <button class="cat-btn active" onclick="filterCategory('All', this)">⭐ All</button>
+    <button class="cat-btn" onclick="filterCategory('Image Generation', this)">🎨 Image</button>
+    <button class="cat-btn" onclick="filterCategory('Video Editing', this)">🎬 Video</button>
+    <button class="cat-btn" onclick="filterCategory('Animation', this)">🎭 Animation</button>
+    <button class="cat-btn" onclick="filterCategory('PDF & Docs', this)">📄 PDF & Docs</button>
+    <button class="cat-btn" onclick="filterCategory('Writing & Chat', this)">✍️ Writing</button>
+    <button class="cat-btn" onclick="filterCategory('Audio & Music', this)">🎵 Audio</button>
+    <button class="cat-btn" onclick="filterCategory('Design', this)">💡 Design</button>
+    <button class="cat-btn" onclick="filterCategory('Coding', this)">💻 Coding</button>
+  </div>
+
+  <!-- TOOLS -->
+  <div class="tools-section">
+    <div class="section-header">
+      <div class="section-title">All Tools</div>
+      <div class="tools-count" id="tools-count"></div>
+    </div>
+    <div class="tools-grid" id="tools-grid"></div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="features-inner">
+      <h2>Why FreeAI Tools?</h2>
+      <p class="features-subtitle">Everything you need to find the right AI tool</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🆓</div>
+          <div class="feature-title">100% Free Tools</div>
+          <div class="feature-desc">Every tool listed is free to use — no hidden costs or paid subscriptions required.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <div class="feature-title">AI Recommendations</div>
+          <div class="feature-desc">Ask our AI assistant which tool is best for your specific task and get instant advice.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🗂️</div>
+          <div class="feature-title">Organized Categories</div>
+          <div class="feature-desc">Browse tools by category — image, video, audio, coding, design and more.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">❤️</div>
+          <div class="feature-title">Save Favourites</div>
+          <div class="feature-desc">Login to save your favourite tools and access them anytime from your dashboard.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI SECTION -->
+  <section class="ai-section">
+    <h2>🤖 Not Sure Which Tool to Use?</h2>
+    <p>Ask our AI assistant and get instant recommendations!</p>
+    <div class="ai-box">
+      <textarea id="ai-input" rows="3" placeholder="e.g. I want to create an animated explainer video for my startup..."></textarea>
+      <button class="btn btn-primary" style="width:100%; padding:12px;" onclick="askAI()">Ask AI →</button>
+      <div class="ai-reply" id="ai-reply"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo">🤖 FreeAI Tools</div>
+          <div class="footer-desc">Discover the best free AI tools for any task. No subscriptions, no hidden costs.</div>
+        </div>
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="#">Image Generation</a>
+          <a href="#">Video Editing</a>
+          <a href="#">Animation</a>
+          <a href="#">Coding</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Account</h4>
+          <a href="auth.html">Login</a>
+          <a href="auth.html">Sign Up</a>
+          <a href="dashboard.html">Dashboard</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 FreeAI Tools. All rights reserved.</span>
+        <span>Built by Nishanth 🚀</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    let currentCategory = 'All';
+
+    window.onload = () => loadTools();
+
+    async function loadTools(category = 'All', search = '') {
+      let url = 'http://localhost:5000/api/tools';
+      if (category !== 'All') url += `?category=${encodeURIComponent(category)}`;
+      if (search) url += `?search=${encodeURIComponent(search)}`;
+
+      const response = await fetch(url);
+      const tools = await response.json();
+
+      document.getElementById('tools-count').innerText = `${tools.length} tools found`;
+      renderTools(tools);
+    }
+
+    function renderTools(tools) {
+      const grid = document.getElementById('tools-grid');
+      if (tools.length === 0) {
+        grid.innerHTML = '<p style="color:#64748b; grid-column:1/-1; padding:40px; text-align:center;">No tools found!</p>';
+        return;
+      }
+
+      grid.innerHTML = tools.map(tool => `
+        <div class="tool-card">
+          <div class="tool-header">
+            <div class="tool-icon">${tool.emoji}</div>
+            <div class="tool-info">
+              <div class="tool-name">${tool.name}</div>
+              <div class="tool-category">${tool.category}</div>
+            </div>
+          </div>
+          <div class="tool-description">${tool.description}</div>
+          <div class="tool-footer">
+            <a href="${tool.link}" target="_blank" class="visit-btn">Visit Tool →</a>
+            <button class="fav-btn" onclick="saveFavourite(${tool.id})" title="Save to favourites">❤️</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterCategory(category, btn) {
+      currentCategory = category;
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      loadTools(category);
+    }
+
+    function searchTools() {
+      const search = document.getElementById('search-input').value;
+      if (search === '') {
+        loadTools(currentCategory);
+      } else {
+        loadTools('All', search);
+      }
+    }
+
+    async function saveFavourite(toolId) {
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      if (!user) {
+        window.location.href = 'auth.html';
+        return;
+      }
+      const response = await fetch('http://localhost:5000/api/favourite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: user.id, tool_id: toolId })
+      });
+      const data = await response.json();
+      showToast('❤️ ' + data.message);
+    }
+
+    async function askAI() {
+      const message = document.getElementById('ai-input').value;
+      if (!message) return;
+      const reply = document.getElementById('ai-reply');
+      reply.style.display = 'block';
+      reply.innerText = '⏳ AI is thinking...';
+      const response = await fetch('http://localhost:5000/api/ask-ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: 'You are a helpful assistant that recommends free AI tools. ' + message })
+      });
+      const data = await response.json();
+      reply.innerText = data.reply ? '🤖 ' + data.reply : '❌ ' + data.error;
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.innerText = message;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+
+    // Check if user is logged in
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    if (user) {
+      document.getElementById('nav-actions').innerHTML = `
+        <span style="font-size:14px; color:#64748b;">👋 ${user.name}</span>
+        <a href="dashboard.html" class="btn btn-outline">Dashboard</a>
+        <button class="btn btn-primary" onclick="logout()">Logout</button>
+      `;
+    }
+
+    function logout() {
+      localStorage.removeItem('user');
+      window.location.reload();
+    }
+  </script>
+
+</body>
+</html>

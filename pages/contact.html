@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FreeAI Tools — Contact</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --bg: #f8fafc;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: white;
+      color: var(--text);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+      height: 64px;
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      border: none;
+    }
+
+    .btn-primary:hover { background: var(--primary-dark); }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 80px 20px 60px;
+      background: linear-gradient(180deg, #f8faff 0%, #ffffff 100%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: #ede9fe;
+      color: var(--primary);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    /* MAIN LAYOUT */
+    .main {
+      max-width: 1100px;
+      margin: 80px auto;
+      padding: 0 40px;
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 60px;
+    }
+
+    /* LEFT INFO */
+    .contact-info h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .contact-info p {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .info-items {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .info-icon {
+      width: 44px;
+      height: 44px;
+      background: #ede9fe;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .info-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .info-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* FORM */
+    .contact-form {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .contact-form h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 24px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .form-group { margin-bottom: 14px; }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      outline: none;
+      transition: border 0.2s;
+      background: white;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--primary);
+    }
+
+    .form-group textarea { resize: none; }
+
+    .submit-btn {
+      width: 100%;
+      padding: 13px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.2s;
+      margin-top: 8px;
+    }
+
+    .submit-btn:hover { background: var(--primary-dark); }
+
+    .msg {
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-top: 14px;
+      display: none;
+    }
+
+    .msg.success {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      color: #166534;
+      display: block;
+    }
+
+    .msg.error {
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+      display: block;
+    }
+
+    /* FAQ */
+    .faq {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 80px 40px;
+    }
+
+    .faq-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .faq h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .faq-subtitle {
+      color: var(--text-muted);
+      margin-bottom: 40px;
+    }
+
+    .faq-items {
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .faq-item {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .faq-item:hover { border-color: var(--primary); }
+
+    .faq-question {
+      font-size: 15px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .faq-answer {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 12px;
+      line-height: 1.7;
+      display: none;
+    }
+
+    .faq-item.open .faq-answer { display: block; }
+    .faq-item.open .faq-icon { transform: rotate(180deg); }
+
+    .faq-icon { transition: transform 0.2s; }
+
+    /* FOOTER */
+    footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.6);
+      padding: 40px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    footer a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      margin: 0 12px;
+    }
+
+    footer a:hover { color: white; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo">🤖 FreeAI Tools</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <a href="auth.html" class="btn btn-primary">Get Started Free</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">📞 Get in Touch</div>
+    <h1>Contact Us</h1>
+    <p>Have a question or want to suggest a new AI tool? We'd love to hear from you!</p>
+  </section>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- LEFT INFO -->
+    <div class="contact-info">
+      <h2>Let's Talk! 👋</h2>
+      <p>We're always looking to improve FreeAI Tools. Whether you want to suggest a new tool, report an issue, or just say hello — reach out!</p>
+
+      <div class="info-items">
+        <div class="info-item">
+          <div class="info-icon">📧</div>
+          <div>
+            <div class="info-title">Email Us</div>
+            <div class="info-desc">nishanthkumarn21@gmail.com</div>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">🐙</div>
+          <div>
+            <div class="info-title">GitHub</div>
+            <div class="info-desc">github.com/techbynishanth</div>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">⚡</div>
+          <div>
+            <div class="info-title">Response Time</div>
+            <div class="info-desc">Usually within 24 hours</div>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">🌍</div>
+          <div>
+            <div class="info-title">Location</div>
+            <div class="info-desc">Bengaluru, India 🇮🇳</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="contact-form">
+      <h3>Send us a Message ✉️</h3>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="fname" placeholder="Nishanth"/>
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="lname" placeholder="Kumar"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="email" placeholder="you@example.com"/>
+      </div>
+
+      <div class="form-group">
+        <label>Subject</label>
+        <select id="subject">
+          <option>Suggest a new AI tool</option>
+          <option>Report an issue</option>
+          <option>General question</option>
+          <option>Partnership</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Message</label>
+        <textarea id="message" rows="5" placeholder="Tell us what's on your mind..."></textarea>
+      </div>
+
+      <button class="submit-btn" onclick="sendMessage()">Send Message →</button>
+      <div class="msg" id="form-msg"></div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="faq-inner">
+      <h2>Frequently Asked Questions</h2>
+      <p class="faq-subtitle">Quick answers to common questions</p>
+      <div class="faq-items">
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            Are all the tools really free?
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">Yes! Every tool listed on FreeAI Tools is free to use. Some may have paid premium plans but we only list tools that have a solid free tier.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            How do I suggest a new tool?
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">Use the contact form above and select "Suggest a new AI tool" as the subject. We review all suggestions and add the best ones!</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            Is my data safe?
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">Absolutely! We only store your name and email for login purposes. We never sell or share your data with anyone.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            Can I use this on my phone?
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">Yes! FreeAI Tools is fully responsive and works great on mobile phones and tablets.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </p>
+    <p style="margin-top:16px;">© 2026 FreeAI Tools. Built by Nishanth 🚀</p>
+  </footer>
+
+  <script>
+    function toggleFaq(item) {
+      item.classList.toggle('open');
+    }
+
+    function sendMessage() {
+      const fname = document.getElementById('fname').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+
+      if (!fname || !email || !message) {
+        const msg = document.getElementById('form-msg');
+        msg.className = 'msg error';
+        msg.innerText = '❌ Please fill all required fields!';
+        setTimeout(() => { msg.className = 'msg'; }, 3000);
+        return;
+      }
+
+      const msg = document.getElementById('form-msg');
+      msg.className = 'msg success';
+      msg.innerText = '✅ Message sent! We will get back to you within 24 hours.';
+
+      document.getElementById('fname').value = '';
+      document.getElementById('lname').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('message').value = '';
+
+      setTimeout(() => { msg.className = 'msg'; }, 4000);
+    }
+  </script>
+
+</body>
+</html>
